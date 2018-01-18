@@ -1,0 +1,19 @@
+{
+  "name": "ListShare",
+  "description": "An app used to share lists",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ChristianSchroedel/ListShare"
+  },
+  "license": "tbd",
+  "engines": {
+    "node": "6.12.x",
+    "npm": "3.10.x"
+  },
+  "scripts": {
+    "start": "cd node && npm start",
+    "test": "cd node && npm run test",
+    "postinstall": "cd node && npm install && npm run build"
+  }
+}

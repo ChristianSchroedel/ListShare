@@ -3,10 +3,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { tap, map } from 'rxjs/operators';
 import { ToDoList } from '../models/todo-list';
+import { secret } from '../../secret';
 
 @Injectable()
 export class ToDoListApiService {
-  private readonly url = 'http://10.0.2.2:1111/api/lists';
+  private readonly url = `${secret.serverUrl}/api/lists`;
   private readonly headers: HttpHeaders;
 
   constructor(private http: HttpClient) {

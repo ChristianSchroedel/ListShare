@@ -5,3 +5,4 @@ hooks/
 references.d.ts
 
 app/**/*.js
+app/secret.ts

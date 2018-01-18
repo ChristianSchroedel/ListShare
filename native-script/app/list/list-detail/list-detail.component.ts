@@ -27,8 +27,7 @@ export class ListDetailComponent implements OnInit {
   public ngOnInit() {
     this.pageRoute.activatedRoute.pipe(
       switchMap(activatedRoute => activatedRoute.params),
-      switchMap(params => this.apiService.getToDoListById(params['id'])),
-      tap(x => console.log('list', JSON.stringify(x)))
+      switchMap(params => this.apiService.getToDoListById(params['id']))
     )
       .subscribe(toDoList => this.toDoList = toDoList);
   }

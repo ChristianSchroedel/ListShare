@@ -1,0 +1,7 @@
+node_modules/
+platforms/
+hooks/
+
+references.d.ts
+
+app/**/*.js

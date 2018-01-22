@@ -2,11 +2,25 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "module": "commonjs",
+    "moduleResolution": "node",
     "target": "es6",
-    "outDir": "dist"
+    "outDir": "dist",
+    "noImplicitAny": true,
+    "noUnusedParameters": false,
+    "noUnusedLocals": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "types": [
+      "jasmine",
+      "node"
+    ],
+    "lib": [
+      "dom",
+      "es6"
+    ]
   },
   "compileOnSave": true,
   "exclude": [
-    "node_modules"
+    "./node_modules"
   ]
 }

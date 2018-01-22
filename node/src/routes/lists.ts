@@ -1,8 +1,8 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
 
-import { ToDoListModel } from '../models/todo-list';
-import { notAllowedResponse, notFoundResponse, createdResponse, readResponse, modifiedResponse, errorResponse } from './util/response';
+import { ToDoListModel } from '../models/todo-list-model';
+import { notAllowedResponse, createdResponse, readResponse, modifiedResponse, errorResponse } from './util/response';
 
 const router = express.Router();
 const listModel = ToDoListModel.instance;

@@ -18,6 +18,16 @@ export class Server {
     this.registerErrorHandler();
   }
 
+  public start() {
+    try {
+      this.app.listen(this.port, () => {
+        console.log('listening on port ' + this.port);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   private registerMiddleware() {
     // Parse incoming requests to JSON.
     this.app.use(bodyParser.json());
@@ -32,15 +42,5 @@ export class Server {
 
   private registerErrorHandler() {
     this.app.use(errorHandler);
-  }
-
-  public start() {
-    try {
-      this.app.listen(this.port, () => {
-        console.log('listening on port ' + this.port);
-      });
-    } catch (error) {
-      console.error(error);
-    }
   }
 }

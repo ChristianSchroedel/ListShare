@@ -1,4 +1,4 @@
-import { ToDoListModel } from './todo-list-model';
+import { ToDoListModel } from '../models/todo-list-model';
 import { expect } from 'chai';
 
 describe('ToDoListModel', () => {

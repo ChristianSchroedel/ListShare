@@ -1,106 +1,40 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import { IToDoList } from '../../../interfaces/todo-list';
+import { Document, Schema, Model, model } from 'mongoose';
 
-import { Model } from './model';
-import { ToDoList } from './todo-list';
+interface IToDoListModel extends IToDoList, Document { }
 
-let instance: ToDoListModel | null = null;
+const schema = new Schema({
+  title: { type: String, required: true },
+  entries: []
+});
 
-export class ToDoListModel implements Model<ToDoList> {
-  constructor() {
-    if (!instance) {
-      instance = this;
-    } else {
-      throw new Error('There is already an instance of ToDoListModel');
-    }
+export const ToDoListMongooseModel = model<IToDoListModel>('todoList', schema);
+
+export class ToDoListModel {
+  private static listModel: Model<IToDoListModel> = ToDoListMongooseModel;
+
+  public static async create(payload: Partial<IToDoList> = {}): Promise<IToDoList> {
+    const newList: IToDoListModel = {
+      title: payload.title || 'New List',
+      entries: payload.entries || []
+    } as IToDoListModel;
+
+    return this.listModel.create(newList);
   }
 
-  public static get instance(): ToDoListModel {
-    if (instance) {
-      return instance;
-    }
-
-    return new ToDoListModel();
-  }
-
-  public async create(payload: Partial<ToDoList>): Promise<string> {
-    const lists = await this.readToDoLists();
-
-    const newList = payload as ToDoList;
-    newList.id = `${+(lists[lists.length - 1].id) + 1}`;
-    newList.title = payload.title ? payload.title : 'No Title';
-    newList.entries = payload.entries ? payload.entries : [];
-    newList.sharedContacts = payload.sharedContacts ? payload.sharedContacts : [];
-
-    lists.push(newList);
-
-    await this.writeToDoLists(lists);
-    return Promise.resolve(newList.id);
-  }
-
-  public async read(id?: string): Promise<ToDoList | ToDoList[] | undefined> {
-    const lists = await this.readToDoLists();
-
+  public static async read(id?: string): Promise<IToDoList | IToDoList[] | null> {
     if (id) {
-      return Promise.resolve(lists.find(toDoList => toDoList.id === id));
+      return this.listModel.findById(id);
     }
 
-    return Promise.resolve(lists);
+    return this.listModel.find();
   }
 
-  public async update(id: string, payload: Partial<ToDoList>): Promise<boolean> {
-    const lists = await this.readToDoLists();
-
-    const index = lists.findIndex(toDoList => toDoList.id === id);
-
-    if (index < 0) {
-      return Promise.resolve(false);
-    }
-
-    lists[index] = Object.assign({}, lists[index], payload);
-
-    await this.writeToDoLists(lists);
-    return Promise.resolve(true);
+  public static async update(id: string, payload: Partial<IToDoList>): Promise<IToDoList | null> {
+    return this.listModel.findByIdAndUpdate(id, payload);
   }
 
-  public async delete(id: string): Promise<boolean> {
-    const lists = await this.readToDoLists();
-
-    const index = lists.findIndex(toDoList => toDoList.id === id);
-
-    if (index < 0) {
-      return Promise.resolve(false);
-    }
-
-    lists.splice(index, 1);
-
-    await this.writeToDoLists(lists);
-    return Promise.resolve(true);
-  }
-
-  private readToDoLists(): Promise<ToDoList[]> {
-    return new Promise<ToDoList[]>((resolve, reject) => {
-      fs.readFile(path.resolve('./', 'todo-lists.json'), 'utf8', (err: Error, buffer: string) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(JSON.parse(buffer));
-      });
-    });
-  }
-
-  private writeToDoLists(lists: ToDoList[]): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      fs.writeFile(path.resolve('./', 'todo-lists.json'), JSON.stringify(lists), (err: Error) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve();
-      });
-    });
+  public static async delete(id: string): Promise<IToDoList | null> {
+    return this.listModel.findByIdAndRemove(id);
   }
 }

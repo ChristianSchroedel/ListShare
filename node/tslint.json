@@ -3,14 +3,17 @@
   "extends": [
     "tslint:recommended"
   ],
-  "jsRules": {},
   "rules": {
     "quotemark": [true, "single"],
     "ordered-imports": false,
     "grouped-imports": false,
     "interface-name": false,
     "arrow-parens": false,
-    "no-console": false
-  },
-  "rulesDirectory": []
+    "no-console": false,
+    "trailing-comma": false,
+    "object-literal-sort-keys": false,
+    "member-ordering": [
+      "fields-first"
+    ]
+  }
 }

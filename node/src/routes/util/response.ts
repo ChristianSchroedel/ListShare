@@ -23,7 +23,7 @@ export function modifiedResponse(success: boolean, req: Request, res: Response) 
 
 export function readResponse(result: any, req: Request, res: Response) {
   if (result) {
-    console.log(`Results for ${req.originalUrl}:`, result);
+    console.log(`Fetched ${Array.isArray(result) ? result.length : 1} results for ${req.originalUrl}`);
     res.status(200).json(result);
   } else {
     notFoundResponse(req, res);
@@ -32,7 +32,7 @@ export function readResponse(result: any, req: Request, res: Response) {
 
 export function createdResponse(id: string, req: Request, res: Response) {
   if (id) {
-    console.log(`Created resource for ${req.originalUrl}/${id}:`, req.body);
+    console.log(`Created resource for ${req.originalUrl}/${id}`);
     res.status(201).send(`${req.originalUrl}/${id}`);
   } else {
     console.warn(`Entry already exists`);
@@ -41,6 +41,13 @@ export function createdResponse(id: string, req: Request, res: Response) {
 }
 
 export function errorResponse(err: Error, req: Request, res: Response) {
+  // This error occurs if an invalid ID is passed to mongodb.
+  if ((err as any).kind === 'ObjectId') {
+    notFoundResponse(req, res);
+    return;
+  }
+
   console.error(`${req.method} on ${req.originalUrl} failed:`, err.stack);
-  res.status(500).send(err.message);
+
+  res.status(500).send('Internal server error');
 }

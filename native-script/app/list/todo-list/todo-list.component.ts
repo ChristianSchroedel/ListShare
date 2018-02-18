@@ -1,7 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { ListViewEventData, RadListView } from 'nativescript-pro-ui/listview';
 import { View } from 'tns-core-modules/ui/core/view';
 import { RadListViewComponent } from 'nativescript-pro-ui/listview/angular';
+import { inputType, prompt, PromptOptions, PromptResult } from 'ui/dialogs';
+import { TextField } from 'ui/text-field';
 
 import { Observable } from 'rxjs/Observable';
 import { empty } from 'rxjs/observable/empty';
@@ -12,16 +14,17 @@ import { ToDoList } from '../models/todo-list';
 
 @Component({
   moduleId: module.id,
-  selector: 'list-detail',
-  templateUrl: 'list-detail.component.html',
-  styleUrls: ['./list-detail.component.css']
+  selector: 'todo-list',
+  templateUrl: './todo-list.component.html',
+  styleUrls: ['./todo-list.component.css']
 })
-export class ListDetailComponent implements OnInit {
+export class ToDoListComponent implements OnInit {
   @ViewChild(RadListViewComponent) listViewComponent: RadListViewComponent;
 
   public toDoList: ToDoList;
 
-  constructor(private pageRoute: PageRoute, private apiService: ToDoListApiService) {
+  constructor(private pageRoute: PageRoute,
+              private apiService: ToDoListApiService) {
   }
 
   public ngOnInit() {
@@ -57,6 +60,29 @@ export class ListDetailComponent implements OnInit {
   }
 
   public addItem() {
-    this.toDoList.addEntry('Added by FAB');
+    const options: PromptOptions = {
+      title: 'New Task',
+      inputType: inputType.text,
+      okButtonText: 'Create',
+      cancelButtonText: 'Cancel',
+    };
+
+    prompt(options).then(promptResult => {
+      if (promptResult.result) {
+        this.toDoList.addEntry(promptResult.text);
+      }
+    });
+  }
+
+  public addQuickTask(args) {
+    const textField = args.object as TextField;
+    const text = textField.text;
+
+    if (!text) {
+      return;
+    }
+
+    this.toDoList.addEntry(text);
+    textField.text = '';
   }
 }

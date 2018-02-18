@@ -2,7 +2,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { ListOverviewComponent } from './list-overview/list-overview.component';
 import { ListRoutingModule } from './list.routing';
 import { NativeScriptUIListViewModule } from 'nativescript-pro-ui/listview/angular';
-import { ListDetailComponent } from './list-detail/list-detail.component';
+import { ToDoListComponent } from './todo-list/todo-list.component';
 import { NativeScriptModule } from 'nativescript-angular/nativescript.module';
 import { ToDoListApiService } from './services/todo-list-api.service';
 
@@ -13,14 +13,12 @@ import { ToDoListApiService } from './services/todo-list-api.service';
     ListRoutingModule
   ],
   exports: [
-    ListOverviewComponent,
-    ListDetailComponent
+    ListOverviewComponent
   ],
   declarations: [
     ListOverviewComponent,
-    ListDetailComponent
-  ],
-  providers: [],
+    ToDoListComponent
+  ]
 })
 export class ListModule {
   public static forRoot(): ModuleWithProviders {

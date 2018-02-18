@@ -6,7 +6,10 @@ export class ToDoList {
   private title$$: BehaviorSubject<string>;
   private entries$$: BehaviorSubject<any[]>;
 
-  constructor(private apiService: ToDoListApiService, public readonly id: string, entries: any[], title: string) {
+  constructor(private apiService: ToDoListApiService,
+              public readonly id: string,
+              entries: any[],
+              title: string) {
     this.title$$ = new BehaviorSubject(title);
     this.entries$$ = new BehaviorSubject(entries || []);
   }
@@ -21,7 +24,7 @@ export class ToDoList {
 
   public addEntry(name: string, description?: string) {
     const currentEntries = this.entries$$.getValue();
-    const newEntryId = '1';
+    const newEntryId = `${Date.now()}`;
 
     currentEntries.push({
       id: newEntryId,
@@ -30,7 +33,7 @@ export class ToDoList {
     });
 
     this.entries$$.next(currentEntries);
-    
+
     this.apiService.updateToDoListEntries(this.id, currentEntries)
       .subscribe(res => console.log(res));
   }

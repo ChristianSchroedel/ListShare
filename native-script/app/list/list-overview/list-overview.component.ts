@@ -10,7 +10,7 @@ import { ToDoList } from '../models/todo-list';
 @Component({
   moduleId: module.id,
   selector: 'list-overview',
-  templateUrl: 'list-overview.component.html',
+  templateUrl: './list-overview.component.html',
   styleUrls: ['./list-overview.component.css']
 })
 export class ListOverviewComponent implements OnInit {

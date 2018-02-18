@@ -7,7 +7,7 @@ import { secret } from '../../secret';
 
 @Injectable()
 export class ToDoListApiService {
-  private readonly url = `${secret.serverUrl}/api/lists`;
+  private readonly url = `${secret.serverUrlDev}/api/lists`;
   private readonly headers: HttpHeaders;
 
   constructor(private http: HttpClient) {
@@ -18,7 +18,7 @@ export class ToDoListApiService {
   public getToDoLists(): Observable<ToDoList[]> {
     return this.http.get(this.url, { headers: this.headers }).pipe(
       map(data => data as any[]),
-      map(data => data.map(list => new ToDoList(this, list.id, list.entries || [], list.title)))
+      map(data => data.map(list => new ToDoList(this, list._id, list.entries || [], list.title)))
     );
   }
 
@@ -27,7 +27,7 @@ export class ToDoListApiService {
 
     return this.http.get(listUrl, { headers: this.headers }).pipe(
       map(data => data as any),
-      map(data => new ToDoList(this, data.id, data.entries || [], data.title))
+      map(data => new ToDoList(this, data._id, data.entries || [], data.title))
     );
   }
 

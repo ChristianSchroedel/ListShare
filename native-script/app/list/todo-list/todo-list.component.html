@@ -1,0 +1,57 @@
+<ActionBar class="action-bar"
+           [title]="toDoList?.title$ | async">
+  <NavigationButton text="Back"
+                    android.systemIcon="ic_menu_back"
+                    [nsRouterLink]="['..']">
+  </NavigationButton>
+</ActionBar>
+
+<RadListView id="item-list"
+             class="list-group"
+             [items]="toDoList?.entries$ | async"
+             [itemReorder]="true"
+             [swipeActions]="true"
+             (itemSwipeProgressStarted)="onSwipeCellStarted($event)">
+  <ng-template tkListItemTemplate let-item="item">
+    <StackLayout class="list-group-item list-item"
+                 [class.list-item--checked]="item.done"
+                 [nsRouterLink]="['/list', item.id]"
+                 (tap)="tap()">
+      <Label class="list-group-item-heading"
+             [text]="item.name">
+      </Label>
+    </StackLayout>
+  </ng-template>
+  <!-- Swipe actions -->
+  <GridLayout *tkListItemSwipeTemplate
+              columns="auto, *, auto"
+              class="gridLayoutLayout">
+    <StackLayout id="check-view"
+                 col="0"
+                 class="swipe-action swipe-action--check"
+                 (tap)="checkItem($event)">
+      <Label text="Check"></Label>
+    </StackLayout>
+    <StackLayout id="delete-view"
+                 col="2"
+                 class="swipe-action swipe-action--delete"
+                 (tap)="deleteItem($event)">
+      <Label text="Delete"></Label>
+    </StackLayout>
+  </GridLayout>
+</RadListView>
+
+<Fab class="fab-button--add"
+     icon="ic_menu_add"
+     rippleColor="#f1f1f1"
+     hideOnSwipeOfView="item-list"
+     (tap)="addItem()">
+</Fab>
+
+<StackLayout class="quick-task">
+  <TextField class="quick-task__text-input"
+             hint="Add a quick Task"
+             returnKeyType="done"
+             (returnPress)="addQuickTask($event)">
+  </TextField>
+</StackLayout>

@@ -2,7 +2,7 @@
 </ActionBar>
 <RadListView class="list-group" [items]="lists$ | async">
   <ng-template tkListItemTemplate let-item="item">
-    <StackLayout class="list-group-item list-item" [nsRouterLink]="['/list', item.id]">
+    <StackLayout class="list-group-item list-item" [nsRouterLink]="['todo-list', item.id]">
       <Label class="list-group-item-heading" [text]="item.title$ | async"></Label>
     </StackLayout>
   </ng-template>

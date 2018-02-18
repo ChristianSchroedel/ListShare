@@ -5,6 +5,7 @@ import { NativeScriptUIListViewModule } from 'nativescript-pro-ui/listview/angul
 import { ToDoListComponent } from './todo-list/todo-list.component';
 import { NativeScriptModule } from 'nativescript-angular/nativescript.module';
 import { ToDoListApiService } from './services/todo-list-api.service';
+import { CreateTaskComponent } from './create-task/create-task.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { ToDoListApiService } from './services/todo-list-api.service';
   ],
   declarations: [
     ListOverviewComponent,
-    ToDoListComponent
+    ToDoListComponent,
+    CreateTaskComponent
   ]
 })
 export class ListModule {

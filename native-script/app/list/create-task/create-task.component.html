@@ -1,0 +1,19 @@
+<ActionBar class="action-bar"
+           title="Create Task">
+  <NavigationButton text="Back"
+                    android.systemIcon="ic_menu_back"
+                    (tap)="routerExtensions.back()">
+  </NavigationButton>
+</ActionBar>
+
+<StackLayout>
+  <TextField class="text-input"
+             hint="Your Task name" 
+             returnKeyType="next"
+             [(ngModel)]="taskName">
+  </TextField>
+  <TextField class="text-input"
+             hint="Further Task description"
+             [(ngModel)]="taskDescription">
+  </TextField>
+</StackLayout>

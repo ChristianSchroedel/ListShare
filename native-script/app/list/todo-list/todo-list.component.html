@@ -2,11 +2,13 @@
            [title]="toDoList?.title$ | async">
   <NavigationButton text="Back"
                     android.systemIcon="ic_menu_back"
-                    [nsRouterLink]="['..']">
+                    [nsRouterLink]="['/']">
   </NavigationButton>
 </ActionBar>
 
+<GridLayout rows="*, auto" cols="*">
 <RadListView id="item-list"
+             row="0" col="0"
              class="list-group"
              [items]="toDoList?.entries$ | async"
              [itemReorder]="true"
@@ -15,7 +17,6 @@
   <ng-template tkListItemTemplate let-item="item">
     <StackLayout class="list-group-item list-item"
                  [class.list-item--checked]="item.done"
-                 [nsRouterLink]="['/list', item.id]"
                  (tap)="tap()">
       <Label class="list-group-item-heading"
              [text]="item.name">
@@ -45,13 +46,15 @@
      icon="ic_menu_add"
      rippleColor="#f1f1f1"
      hideOnSwipeOfView="item-list"
-     (tap)="addItem()">
+     [nsRouterLink]="['/create-task']">
 </Fab>
 
-<StackLayout class="quick-task">
+<StackLayout row="1" col="0"
+             class="quick-task">
   <TextField class="quick-task__text-input"
              hint="Add a quick Task"
              returnKeyType="done"
              (returnPress)="addQuickTask($event)">
   </TextField>
 </StackLayout>
+</GridLayout>

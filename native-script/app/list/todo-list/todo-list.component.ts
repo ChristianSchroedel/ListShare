@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ListViewEventData, RadListView } from 'nativescript-pro-ui/listview';
 import { View } from 'tns-core-modules/ui/core/view';
 import { RadListViewComponent } from 'nativescript-pro-ui/listview/angular';
